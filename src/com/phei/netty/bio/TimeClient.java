@@ -43,43 +43,58 @@ public class TimeClient {
 	    }
 
 	}
-	Socket socket = null;
-	BufferedReader in = null;
-	PrintWriter out = null;
-	try {
-	    socket = new Socket("127.0.0.1", port);
-	    in = new BufferedReader(new InputStreamReader(
-		    socket.getInputStream()));
-	    out = new PrintWriter(socket.getOutputStream(), true);
-	    out.println("QUERY TIME ORDER");
-	    System.out.println("Send order 2 server succeed.");
-	    String resp = in.readLine();
-	    System.out.println("Now is : " + resp);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	} finally {
-	    if (out != null) {
-		out.close();
-		out = null;
-	    }
+		client_one(port);
 
-	    if (in != null) {
-		try {
-		    in.close();
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
-		in = null;
-	    }
-
-	    if (socket != null) {
-		try {
-		    socket.close();
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
-		socket = null;
-	    }
+		client_one(port);
 	}
-    }
+
+	/**
+	 * 连接客户端1
+	 * @param port
+	 */
+	private static void client_one(int port) {
+		Socket socket = null;
+		BufferedReader in = null;
+		PrintWriter out = null;
+		try {
+			/**
+			 * 客户端连接服务器，需要指定服务器IP地址和端口号
+			 */
+			socket = new Socket("127.0.0.1", port);
+			// 从socket 中获取输入流
+			in = new BufferedReader(new InputStreamReader(
+				socket.getInputStream()));
+			// 从socket 中获取输出流
+			out = new PrintWriter(socket.getOutputStream(), true);
+			out.println("QUERY TIME ORDER");
+			System.out.println("Send order 2 server succeed.");
+			String resp = in.readLine();
+			System.out.println("Now is : " + resp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+			out.close();
+			out = null;
+			}
+
+			if (in != null) {
+			try {
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			in = null;
+			}
+
+			if (socket != null) {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			socket = null;
+			}
+		}
+	}
 }
